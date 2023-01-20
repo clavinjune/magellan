@@ -12,7 +12,6 @@ package gen
 
 import (
 	"embed"
-	"io/fs"
 	"mime"
 	"net/http"
 )

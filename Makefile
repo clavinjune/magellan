@@ -16,18 +16,21 @@ buf/generate/swagger:
 	&& ./scripts/buf/generate-swagger-handler.sh
 
 .PHONY: build
-build: wire
+build: generate
 	@go build \
 	-ldflags "-s -w -X main.Version=${REVISION}" \
 	-o ${APP_NAME} cmd/main.go
 
 .PHONY: docker/build
-docker/build: wire
+docker/build: generate
 	@docker build \
 	-f scripts/docker/Dockerfile \
 	--build-arg REVISION=${REVISION} \
 	-t ${APP_NAME}:${REVISION} .
 	@docker tag ${APP_NAME}:${REVISION} ${APP_NAME}:latest
+
+.PHONY: generate
+generate: buf/generate wire
 
 .PHONY: lint
 lint:
@@ -35,7 +38,7 @@ lint:
 	@go vet ./...
 	@go run $(GOIMPORTS) -w .
 	@gofmt -w -s .
-	@#go mod tidy
+	@go mod tidy
 	@go run $(GOVULNCHECK) ./...
 
 .PHONY: test
