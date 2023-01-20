@@ -1,0 +1,73 @@
+syntax = "proto3";
+package magellan.v1;
+option go_package = "github.com/clavinjune/magellan/gen/proto/magellan/v1;v1";
+
+import "google/api/annotations.proto";
+import "protoc-gen-openapiv2/options/annotations.proto";
+
+import "magellan/v1/authentication_service_login.proto";
+
+
+// https://github.com/grpc-ecosystem/grpc-gateway/blob/master/protoc-gen-openapiv2/options/openapiv2.proto#L25-L43
+option (grpc.gateway.protoc_gen_openapiv2.options.openapiv2_swagger) = {
+  info: {version: "1.0"};
+  external_docs: {
+    url: "https://github.com/clavinjune/magellan";
+    description: "authentication service";
+  }
+  schemes: HTTP;
+  schemes: HTTPS;
+  consumes: "application/json";
+  produces: "application/json";
+};
+
+service AuthenticationService {
+  // Login
+  //
+  // {{.MethodDescriptorProto.Name}} is a call with the method(s) {{$first := true}}{{range .Bindings}}{{if $first}}{{$first = false}}{{else}}, {{end}}{{.HTTPMethod}}{{end}} within the "{{.Service.Name}}" service.
+  // It takes in "{{.RequestType.Name}}" and returns a "{{.ResponseType.Name}}".
+  rpc Login(AuthenticationServiceLoginRequest) returns (AuthenticationServiceLoginResponse) {
+    option (google.api.http) = {
+      post: "/api/v1/authentication/login"
+      body: "*"
+    };
+
+    option (grpc.gateway.protoc_gen_openapiv2.options.openapiv2_operation) = {
+      summary: "Login to the system";
+      operation_id: "authentication_login";
+      consumes: "application/json";
+      produces: "application/json";
+      schemes: HTTP;
+      schemes: HTTPS;
+//      tags: "authentication";
+//      parameters: {
+//        headers: {
+//          name: "Authorization"
+//          description: "Bearer <base64>"
+//          type: STRING
+//          required: true
+//        }
+//      };
+      responses: {
+        key: "200"
+        value: {
+          description: "OK"
+          examples: {
+            key: "application/json"
+            value: "{\"message\": \"Unauthorized\"}"
+          }
+        }
+      }
+      responses: {
+        key: "401"
+        value: {
+          description: "UNAUTHORIZED"
+          examples: {
+            key: "application/json"
+            value: "{\"message\": \"Unauthorized\"}"
+          }
+        };
+      };
+    };
+  }
+}

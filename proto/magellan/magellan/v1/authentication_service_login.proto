@@ -1,0 +1,37 @@
+syntax = "proto3";
+package magellan.v1;
+option go_package = "github.com/clavinjune/magellan/gen/proto/magellan/v1;v1";
+
+import "protoc-gen-openapiv2/options/annotations.proto";
+import "magellan/v1/authentication_type.proto";
+
+option (grpc.gateway.protoc_gen_openapiv2.options.openapiv2_swagger) = {
+  info: {version: "1.0"};
+  external_docs: {
+    url: "https://github.com/clavinjune/magellan";
+    description: "authentication service login request and response";
+  }
+};
+
+message AuthenticationServiceLoginRequest {
+  option (grpc.gateway.protoc_gen_openapiv2.options.openapiv2_schema) = {
+    json_schema: {
+      title: "AuthenticationLoginRequest"
+      description: "Authentication Login Request"
+      required: ["authentication_type"]
+    }
+  };
+
+  AuthenticationType authentication_type = 1;
+}
+
+message AuthenticationServiceLoginResponse {
+  option (grpc.gateway.protoc_gen_openapiv2.options.openapiv2_schema) = {
+    json_schema: {
+      title: "AuthenticationLoginResponse"
+      description: "Authentication Login Response"
+    }
+  };
+
+  string message = 1;
+}
