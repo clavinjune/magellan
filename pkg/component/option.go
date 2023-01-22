@@ -1,11 +1,12 @@
 package component
 
 import (
+	"net/http"
+
 	"github.com/clavinjune/gokit/grpcutil"
 	"github.com/grpc-ecosystem/grpc-gateway/v2/runtime"
 	"golang.org/x/exp/slog"
 	"google.golang.org/grpc"
-	"net/http"
 )
 
 type Option struct {
