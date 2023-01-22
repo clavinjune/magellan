@@ -2,7 +2,6 @@ package main
 
 import (
 	"fmt"
-	"runtime"
 
 	"github.com/clavinjune/magellan/cmd/grpc"
 	"github.com/clavinjune/magellan/cmd/proxy"
@@ -16,11 +15,13 @@ const (
 )
 
 var (
-	Version = "dev"
+	version = "dev"
+	commit  = "none"
+	date    = "unknown"
 )
 
 func main() {
-	version := fmt.Sprintf("%s %s/%s", Version, runtime.GOOS, runtime.GOARCH)
+	version := fmt.Sprintf("%s commit=%s build_date=%s", version, commit, date)
 	root := cobrautil.New(AppName, version)
 	root.AddCommand(
 		//		hello.Init(hello.Cmd),

@@ -14,7 +14,7 @@ RUN go mod download
 COPY . .
 
 RUN go build \
-    -ldflags "-s -w -X main.Version=$REVISION" \
+    -ldflags "-s -w -X main.version=$REVISION" \
     -o /bin/app ./cmd/main.go
 
 FROM gcr.io/distroless/base:latest
