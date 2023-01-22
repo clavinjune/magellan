@@ -1,7 +1,7 @@
 .PHONY: build/bin
 build/bin: generate
 	@go build \
-	-ldflags "-s -w -X main.Version=${REVISION}" \
+	-ldflags "-s -w -X main.version=${REVISION}" \
 	-o ${APP_NAME} cmd/main.go
 
 .PHONY: build/image

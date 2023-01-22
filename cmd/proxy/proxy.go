@@ -2,9 +2,10 @@ package proxy
 
 import (
 	"context"
-	"github.com/clavinjune/magellan/gen"
 	"net/http"
 	"time"
+
+	"github.com/clavinjune/magellan/gen"
 
 	magellanv1 "github.com/clavinjune/magellan/api/proto/magellan/v1"
 	"google.golang.org/grpc"

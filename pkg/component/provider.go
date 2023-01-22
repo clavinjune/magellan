@@ -1,9 +1,9 @@
 package component
 
 import (
+	"github.com/clavinjune/gokit/grpcutil"
 	"github.com/clavinjune/magellan/api/component"
 	"github.com/clavinjune/magellan/pkg/authentication"
-	"github.com/clavinjune/gokit/grpcutil"
 	"github.com/google/wire"
 	"google.golang.org/grpc"
 )
