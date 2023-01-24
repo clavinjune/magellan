@@ -1,5 +1,6 @@
 include scripts/make/buf.mk
 include scripts/make/build.mk
+include scripts/make/docker.mk
 include scripts/make/test.mk
 include scripts/make/tools.mk
 
