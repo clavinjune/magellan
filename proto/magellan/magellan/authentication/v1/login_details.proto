@@ -1,0 +1,38 @@
+syntax = "proto3";
+package magellan.authentication.v1;
+option go_package = "github.com/clavinjune/magellan/gen/proto/magellan/authentication/v1;v1";
+
+import "protoc-gen-openapiv2/options/annotations.proto";
+
+option (grpc.gateway.protoc_gen_openapiv2.options.openapiv2_swagger) = {
+  info: {version: "1.0"};
+  external_docs: {
+    url: "https://github.com/clavinjune/magellan";
+    description: "authentication enum";
+  }
+};
+
+message LoginDetailsDefault {
+  option (grpc.gateway.protoc_gen_openapiv2.options.openapiv2_schema) = {
+    json_schema: {
+      title: "Login Details Default"
+      description: "Login Details for Default LoginType"
+      required: ["email", "password"]
+    }
+  };
+
+  string email = 1;
+  string password = 2;
+}
+
+message LoginDetailsGoogle {
+  option (grpc.gateway.protoc_gen_openapiv2.options.openapiv2_schema) = {
+    json_schema: {
+      title: "Login Details Google"
+      description: "Login Details for Google LoginType"
+      required: ["token"]
+    }
+  };
+
+  string token = 1;
+}

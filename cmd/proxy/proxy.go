@@ -7,7 +7,7 @@ import (
 
 	"github.com/clavinjune/magellan/gen"
 
-	magellanv1 "github.com/clavinjune/magellan/api/proto/magellan/v1"
+	authenticationv1 "github.com/clavinjune/magellan/api/proto/magellan/authentication/v1"
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/credentials/insecure"
 
@@ -54,8 +54,8 @@ func RunE(cmd *cobra.Command, args []string) error {
 
 	dialOpts := []grpc.DialOption{grpc.WithTransportCredentials(insecure.NewCredentials())}
 	wire.Proxy.Register(func(server *grpc.Server, mux *runtime.ServeMux, endpoint string) {
-		magellanv1.RegisterAuthenticationServiceServer(server, wire.Authentication)
-		magellanv1.RegisterAuthenticationServiceHandlerFromEndpoint(
+		authenticationv1.RegisterServiceServer(server, wire.Authentication)
+		authenticationv1.RegisterServiceHandlerFromEndpoint(
 			cmd.Context(), mux, endpoint, dialOpts)
 	}).Listen(cmd.Context())
 	return nil

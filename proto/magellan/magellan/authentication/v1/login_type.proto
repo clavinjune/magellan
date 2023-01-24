@@ -1,6 +1,6 @@
 syntax = "proto3";
-package magellan.v1;
-option go_package = "github.com/clavinjune/magellan/gen/proto/magellan/v1;v1";
+package magellan.authentication.v1;
+option go_package = "github.com/clavinjune/magellan/gen/proto/magellan/authentication/v1;v1";
 
 import "protoc-gen-openapiv2/options/annotations.proto";
 
@@ -12,8 +12,8 @@ option (grpc.gateway.protoc_gen_openapiv2.options.openapiv2_swagger) = {
   }
 };
 
-enum AuthenticationType {
-  AUTHENTICATION_TYPE_UNSPECIFIED = 0;
-  AUTHENTICATION_TYPE_BIKO = 1;
-  AUTHENTICATION_TYPE_GMAIL = 2;
+enum LoginType {
+  LOGIN_TYPE_UNSPECIFIED = 0;
+  LOGIN_TYPE_DEFAULT = 1;
+  LOGIN_TYPE_GOOGLE = 2;
 }

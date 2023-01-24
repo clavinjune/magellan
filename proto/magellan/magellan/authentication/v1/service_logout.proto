@@ -1,9 +1,8 @@
 syntax = "proto3";
-package magellan.v1;
-option go_package = "github.com/clavinjune/magellan/gen/proto/magellan/v1;v1";
+package magellan.authentication.v1;
+option go_package = "github.com/clavinjune/magellan/gen/proto/magellan/authentication/v1;v1";
 
 import "protoc-gen-openapiv2/options/annotations.proto";
-import "magellan/v1/authentication_type.proto";
 
 option (grpc.gateway.protoc_gen_openapiv2.options.openapiv2_swagger) = {
   info: {version: "1.0"};
@@ -13,25 +12,20 @@ option (grpc.gateway.protoc_gen_openapiv2.options.openapiv2_swagger) = {
   }
 };
 
-message AuthenticationServiceLoginRequest {
+message ServiceLogoutRequest {
   option (grpc.gateway.protoc_gen_openapiv2.options.openapiv2_schema) = {
     json_schema: {
-      title: "AuthenticationLoginRequest"
-      description: "Authentication Login Request"
-      required: ["authentication_type"]
+      title: "Logout Request"
+      description: "Authentication Logout Request"
     }
   };
-
-  AuthenticationType authentication_type = 1;
 }
 
-message AuthenticationServiceLoginResponse {
+message ServiceLogoutResponse {
   option (grpc.gateway.protoc_gen_openapiv2.options.openapiv2_schema) = {
     json_schema: {
-      title: "AuthenticationLoginResponse"
-      description: "Authentication Login Response"
+      title: "Logout Response"
+      description: "Authentication Logout Response"
     }
   };
-
-  string message = 1;
 }
