@@ -1,0 +1,43 @@
+syntax = "proto3";
+package magellan.authentication.v1;
+option go_package = "github.com/clavinjune/magellan/gen/proto/magellan/authentication/v1;v1";
+
+import "protoc-gen-openapiv2/options/annotations.proto";
+import "magellan/authentication/v1/login_type.proto";
+import "magellan/authentication/v1/login_details.proto";
+
+option (grpc.gateway.protoc_gen_openapiv2.options.openapiv2_swagger) = {
+  info: {version: "1.0"};
+  external_docs: {
+    url: "https://github.com/clavinjune/magellan";
+    description: "authentication service login request and response";
+  }
+};
+
+message ServiceLoginRequest {
+  option (grpc.gateway.protoc_gen_openapiv2.options.openapiv2_schema) = {
+    json_schema: {
+      title: "Login Request"
+      description: "Authentication Login Request"
+      required: ["authentication_type"]
+    }
+  };
+
+  LoginType login_type = 1;
+  oneof login_details {
+      LoginDetailsDefault login_details_default = 2;
+      LoginDetailsGoogle login_details_google = 3;
+  }
+}
+
+// ToDo @clavinjune update the proper response type
+message ServiceLoginResponse {
+  option (grpc.gateway.protoc_gen_openapiv2.options.openapiv2_schema) = {
+    json_schema: {
+      title: "Login Response"
+      description: "Authentication Login Response"
+    }
+  };
+
+  string message = 1;
+}

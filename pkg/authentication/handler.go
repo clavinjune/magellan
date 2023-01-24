@@ -7,18 +7,18 @@ import (
 	"google.golang.org/grpc/codes"
 	"google.golang.org/grpc/status"
 
-	magellanv1 "github.com/clavinjune/magellan/api/proto/magellan/v1"
+	authenticationv1 "github.com/clavinjune/magellan/api/proto/magellan/authentication/v1"
 	"golang.org/x/exp/slog"
 	"google.golang.org/grpc/metadata"
 )
 
 type handler struct {
 	_ struct{}
-	*magellanv1.UnimplementedAuthenticationServiceServer
+	*authenticationv1.UnimplementedServiceServer
 }
 
-func (h *handler) Login(ctx context.Context, request *magellanv1.AuthenticationServiceLoginRequest) (*magellanv1.AuthenticationServiceLoginResponse, error) {
-	if request.AuthenticationType == magellanv1.AuthenticationType_AUTHENTICATION_TYPE_UNSPECIFIED {
+func (h *handler) Login(ctx context.Context, request *authenticationv1.ServiceLoginRequest) (*authenticationv1.ServiceLoginResponse, error) {
+	if request.LoginType == authenticationv1.LoginType_LOGIN_TYPE_UNSPECIFIED {
 		return nil, status.Error(codes.Unauthenticated, "Authentication Type is unspecified")
 	}
 
@@ -32,7 +32,11 @@ func (h *handler) Login(ctx context.Context, request *magellanv1.AuthenticationS
 		metadata.Pairs("testing", "bruh"),
 	)
 
-	return &magellanv1.AuthenticationServiceLoginResponse{
-		Message: request.AuthenticationType.String(),
+	return &authenticationv1.ServiceLoginResponse{
+		Message: request.LoginType.String(),
 	}, nil
+}
+
+func (h *handler) Logout(context.Context, *authenticationv1.ServiceLogoutRequest) (*authenticationv1.ServiceLogoutResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method Logout not implemented")
 }

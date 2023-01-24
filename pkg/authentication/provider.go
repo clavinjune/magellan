@@ -3,7 +3,7 @@ package authentication
 import (
 	"sync"
 
-	magellanv1 "github.com/clavinjune/magellan/api/proto/magellan/v1"
+	authenticationv1 "github.com/clavinjune/magellan/api/proto/magellan/authentication/v1"
 	"github.com/google/wire"
 )
 
@@ -13,7 +13,7 @@ var (
 
 	ProviderSet = wire.NewSet(
 		New,
-		wire.Bind(new(magellanv1.AuthenticationServiceServer), new(*handler)),
+		wire.Bind(new(authenticationv1.ServiceServer), new(*handler)),
 	)
 )
 
