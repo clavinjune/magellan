@@ -1,11 +1,12 @@
 syntax = "proto3";
-package magellan.v1;
-option go_package = "github.com/clavinjune/magellan/gen/proto/magellan/v1;v1";
+package magellan.authentication.v1;
+option go_package = "github.com/clavinjune/magellan/gen/proto/magellan/authentication/v1;v1";
 
 import "google/api/annotations.proto";
 import "protoc-gen-openapiv2/options/annotations.proto";
 
-import "magellan/v1/authentication_service_login.proto";
+import "magellan/authentication/v1/service_login.proto";
+import "magellan/authentication/v1/service_logout.proto";
 
 
 // https://github.com/grpc-ecosystem/grpc-gateway/blob/master/protoc-gen-openapiv2/options/openapiv2.proto#L25-L43
@@ -21,12 +22,13 @@ option (grpc.gateway.protoc_gen_openapiv2.options.openapiv2_swagger) = {
   produces: "application/json";
 };
 
-service AuthenticationService {
+service Service {
   // Login
   //
-  // {{.MethodDescriptorProto.Name}} is a call with the method(s) {{$first := true}}{{range .Bindings}}{{if $first}}{{$first = false}}{{else}}, {{end}}{{.HTTPMethod}}{{end}} within the "{{.Service.Name}}" service.
-  // It takes in "{{.RequestType.Name}}" and returns a "{{.ResponseType.Name}}".
-  rpc Login(AuthenticationServiceLoginRequest) returns (AuthenticationServiceLoginResponse) {
+  // {{.MethodDescriptorProto.Name}} is used for login to the system. Define `loginType` and one of `loginDetails`
+  // HTTPOnly Cookie will be set under the name `mat` as Access Token and `mrt` as Refresh Token only if the Login success
+  // otherwise 401 will be returned
+  rpc Login(ServiceLoginRequest) returns (ServiceLoginResponse) {
     option (google.api.http) = {
       post: "/api/v1/authentication/login"
       body: "*"
@@ -39,22 +41,13 @@ service AuthenticationService {
       produces: "application/json";
       schemes: HTTP;
       schemes: HTTPS;
-//      tags: "authentication";
-//      parameters: {
-//        headers: {
-//          name: "Authorization"
-//          description: "Bearer <base64>"
-//          type: STRING
-//          required: true
-//        }
-//      };
       responses: {
         key: "200"
         value: {
           description: "OK"
           examples: {
             key: "application/json"
-            value: "{\"message\": \"Unauthorized\"}"
+            value: "{\"message\": \"OK\"}"
           }
         }
       }
@@ -70,4 +63,25 @@ service AuthenticationService {
       };
     };
   }
-}
+
+  // Logout
+  //
+  // {{.MethodDescriptorProto.Name}} is used for logout from the system
+  // HTTPOnly Cookie `mat` and `mrt` will be unset
+  rpc Logout(ServiceLogoutRequest) returns (ServiceLogoutResponse) {
+    option (google.api.http) = {
+      post: "/api/v1/authentication/logout"
+      body: "*"
+    };
+
+    option (grpc.gateway.protoc_gen_openapiv2.options.openapiv2_operation) = {
+      summary: "Logout from the system";
+      operation_id: "authentication_logout";
+      schemes: HTTP;
+      schemes: HTTPS;
+      responses: {
+        key: "204"
+        }
+      };
+    };
+  }
